@@ -5,7 +5,6 @@ const books = require('./books');
  * @description - add new book into books
  */
 const onAddBookHandler = (request, h) => {
-  const isSuccess = true;
   const {
     name,
     year,
@@ -21,21 +20,6 @@ const onAddBookHandler = (request, h) => {
   const finished = pageCount === readPage;
   const insertedAt = new Date().toISOString();
   const updatedAt = insertedAt;
-
-  const newBook = {
-    id,
-    name,
-    year,
-    author,
-    summary,
-    publisher,
-    pageCount,
-    readPage,
-    finished,
-    reading,
-    insertedAt,
-    updatedAt,
-  };
 
   // if name is empty
   if (!name) {
@@ -60,9 +44,26 @@ const onAddBookHandler = (request, h) => {
     return response;
   }
 
+  const newBook = {
+    id,
+    name,
+    year,
+    author,
+    summary,
+    publisher,
+    pageCount,
+    readPage,
+    finished,
+    reading,
+    insertedAt,
+    updatedAt,
+  };
+
+  books.push(newBook);
+  const isSuccess = books.filter((book) => book.id === id).length > 0;
+
   // on success
   if (isSuccess) {
-    books.push(newBook);
     const response = h.response({
       status: 'success',
       message: 'Buku berhasil ditambahkan',
